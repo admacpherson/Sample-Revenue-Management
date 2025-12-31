@@ -8,9 +8,10 @@ import matplotlib.ticker as mtick
 import sys
 sys.path.insert(0, '..')
 
-def get_average_fare_df(all_market_airports, filepath="../data/table.csv"):
+# Get average fare data as a cleaned df for market airports
+def get_average_fare_df(all_market_airports, filepath):
     # Import average fare dataframe from table (static by default)
-    average_city_fare_df = pd.read_csv("../data/table.csv")
+    average_city_fare_df = pd.read_csv(filepath)
 
     # Filter for market airports
     average_city_fare_df = average_city_fare_df[average_city_fare_df["Airport Code"].isin(all_market_airports)]
@@ -20,7 +21,8 @@ def get_average_fare_df(all_market_airports, filepath="../data/table.csv"):
 
     return average_city_fare_df
 
-def get_market_df(filepath="../data/la_to_seattle_t1_static.csv"):
+# Get query data as a cleaned df for market airports
+def get_market_df(filepath):
     #Import market info dataframe from static tables
     df = pd.read_csv(filepath)
 
@@ -44,13 +46,23 @@ def get_market_df(filepath="../data/la_to_seattle_t1_static.csv"):
 
 
 # Plot market share of largest carrier, lowest fare carrier (if different), and other airlines (OA) over a given time period
-def plot_market_share(starting_period="1996Q1", periods_per_label=4, dataframe=get_market_df()):
+def plot_market_share(filepath, starting_period="", periods_per_label=4, route_name=""):
+    # Get dataframe for market
+    dataframe = get_market_df(filepath)
+
     # Create helper column for plotting when largest carrier and lowest fare carrier are the same to prevent 2x graphing
     dataframe['lf_ms_plot'] = np.where(
         dataframe['carrier_lg'] == dataframe['carrier_low'],
         0,
         dataframe['lf_ms']
     )
+
+    # Default to earliest period if not specified
+    min_quarter = min(dataframe['period'])
+
+    if starting_period == "":
+        starting_period = min_quarter
+
 
     # Stacked bar chart of main carrier, lowest fare carrier, and OA carriers
     ax = dataframe[dataframe['period'] > starting_period].set_index('period')[['large_ms', 'lf_ms_plot', 'OA_ms']].plot(
@@ -61,6 +73,7 @@ def plot_market_share(starting_period="1996Q1", periods_per_label=4, dataframe=g
         width=1.0
     )
 
+    # Create year labels every periods_per_label periods
     labels = []
     for i, row in dataframe[dataframe['period'] > starting_period].iterrows():
         if i % periods_per_label == 0:
@@ -74,7 +87,7 @@ def plot_market_share(starting_period="1996Q1", periods_per_label=4, dataframe=g
     subtitle = str(starting_period[0:4]) + " (" + str(starting_period[4:]) + ") - " + str(max_quarter[0:4]) + " (" + str(max_quarter[4:]) + ")"
 
     # Formatting
-    plt.title(f'Market Share Breakdown by Year (LAX* - SEA) \n {subtitle}')
+    plt.title(f'Market Share Breakdown by Year - {route_name} \n {subtitle}')
     plt.ylabel('Market Share (%)')
     ax.yaxis.set_major_formatter(mtick.PercentFormatter(1.0))
     plt.xlabel('Year')

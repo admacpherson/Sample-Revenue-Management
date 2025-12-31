@@ -1,6 +1,6 @@
 import pandas as pd
 from sodapy import Socrata
-
+from config.options import *
 from config.credentials import APP_TOKEN
 
 # Dataset identifier for querying DOT
@@ -10,7 +10,7 @@ TABLE1_DATASET_ID = "4f3n-jbg2"
 client = Socrata("data.transportation.gov", APP_TOKEN)
 
 # Capture all flight data between two cities as an ordered pair and return as df (helper function)
-def run_city_pair_query(city1, city2, limit=500, dataset_id = TABLE1_DATASET_ID):
+def run_city_pair_query(city1, city2, limit=QUERY_LIMIT, dataset_id = TABLE1_DATASET_ID):
     # Try with city1 then city2
     results = client.get(TABLE1_DATASET_ID,
                          limit=limit,
@@ -21,7 +21,7 @@ def run_city_pair_query(city1, city2, limit=500, dataset_id = TABLE1_DATASET_ID)
     return results_df
 
 # Capture all flight data between two cities as an unordered pair and return as df (best for usage)
-def fetch_city_pair_data(city1, city2, limit=500, dataset_id = TABLE1_DATASET_ID):
+def fetch_city_pair_data(city1, city2, limit=QUERY_LIMIT, dataset_id = TABLE1_DATASET_ID):
     # Try with city1 then city2
     results_df = run_city_pair_query(city1, city2, limit, dataset_id)
 
