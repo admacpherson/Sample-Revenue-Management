@@ -32,4 +32,4 @@ data.pop(0)
 # Convert to data frame with headers and export to csv
 df = pd.DataFrame(data)
 df.columns = header_array
-df.to_csv("table.csv", index=False, header=True)
+df.to_csv("../data/table.csv", index=False, header=True)
