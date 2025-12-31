@@ -57,3 +57,5 @@ ONT_AIRPORT = {
     "City": "Los Angeles",
     "City ID": 32575
 }
+
+airports_list = [SEATTLE_AIRPORT, SNA_AIRPORT, LAX_AIRPORT, LGB_AIRPORT, BUR_AIRPORT, ONT_AIRPORT]

@@ -1,7 +1,7 @@
 import pandas as pd
 from sodapy import Socrata
 
-from credentials import APP_TOKEN
+from config.credentials import APP_TOKEN
 
 # Dataset identifier for querying DOT
 TABLE1_DATASET_ID = "4f3n-jbg2"
