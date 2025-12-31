@@ -3,24 +3,6 @@ from sodapy import Socrata
 
 from credentials import APP_TOKEN
 
-# DOT City IDs
-city_IDs = {
-    "Seattle": 30559,
-    "Everett": 34004,
-    "LA Metro": 32575 # (includes SNA, LGB, LAX, BUR, ONT)
-}
-
-# DOT Airport IDs
-airport_IDs = {
-    "SEA": 14747,
-    "PAE": 14004,
-    "SNA": 14908,
-    "LAX": 12892,
-    "LGB": 12954,
-    "BUR": 10800,
-    "ONT": 13891
-}
-
 # Dataset identifier for querying DOT
 TABLE1_DATASET_ID = "4f3n-jbg2"
 
