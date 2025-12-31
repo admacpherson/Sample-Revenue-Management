@@ -49,7 +49,3 @@ def fetch_city_pair_data(city1, city2, limit=500, dataset_id = TABLE1_DATASET_ID
     else:
         results_df = run_city_pair_query(city2, city1, limit, dataset_id)
         return results_df
-
-
-# Capture all flights between LA Metro airports and Seattle (DOT data is bidirectional)
-la_seattle_data = fetch_city_pair_data(city_IDs["Seattle"], city_IDs["LA Metro"], limit=100)
