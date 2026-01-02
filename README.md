@@ -5,20 +5,30 @@ Simulating a revenue management case study based on publicly available data
 <b>Data Pipeline</b>
 - [x] BTS data scraper
 - [x] Airfare Report endpoint access
-- [ ] Conversion to static tables and dataframes
+- [x] Modularized conversion to static tables and dataframes
+- [x] Modifiable market inputs and one-touch analysis
 
 <b>Analysis</b>
+- [x] Market share over time graphs
 - [ ] MRP market analysis
+  - [ ] Schedule and ASMs
+  - [ ] Coterms
+  - [ ] Fare trends
+  - [ ] Connecting vs O/D pax?
 - [ ] Impact of (U)LCCs on market via Consumer Airfare Report T7
 
 ## Structure
 * `data`
-  * `scraper.py`: BeautifulSoup scraper that reads most current data from the [BTS website](https://www.transtats.bts.gov/AverageFare/) for Average Domestic Airline Itinerary Fares By Origin City and exports it to table.csv 
-  * `table.csv`: CSV-formatted data from BTS
-  * `2025Q2.csv`: Static table with 2025 Q2 data 
+  * `table.csv`: CSV-formatted data from `scraper.py`
+  * `2025Q2.csv`: Static table with 2025 Q2 data from `scraper.py`
+  * `la_to_seattle_t1`: CSV-formatted data from `query.py` for LA/Seattle metro areas city pairing
+  * `la_to_seattle_t1_static`: Static version of data from `query.py`
+* `src`
+  * `create_tables.py`: Creates CSV tables for results from `scraper.py` and `query.py` for LA/Seattle city pairing
+  * `scraper.py`: BeautifulSoup scraper that reads most current data from the [BTS website](https://www.transtats.bts.gov/AverageFare/) for Average Domestic Airline Itinerary Fares By Origin City
+  * `query.py`: API query that reads most current data from [Table 1](https://data.transportation.gov/Aviation/Consumer-Airfare-Report-Table-1-Top-1-000-Contiguo/4f3n-jbg2/data_preview) into a dataframe
 * `.gitignore`
 * `README.md`
-
 ## Data
 The United States Bureau of Transportation Statistics (BTS), a part of the Department of Transportation (DOT) maintains various data relating to air transport. This project uses the following:
 
